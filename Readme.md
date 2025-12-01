@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Эльдар Дусмуратов](https://up.htmlacademy.ru/nodejs-api-individual/2/user/1044677).
-* Наставник: `Неизвестно`.
+* Наставник: [Роман Решетников] (https://htmlacademy.ru/profile/id1919895).
 
 ---
 
