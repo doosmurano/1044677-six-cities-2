@@ -1,27 +1,12 @@
-import { readFileSync } from 'node:fs';
-import { Offer } from '../../types/index.js';
-import { createOffer } from '../../helpers/index.js';
+import EventEmitter from 'node:events';
 import { FileReader } from './file-reader.interface.js';
 
-export class TSVFileReader implements FileReader {
-  private rawData = '';
-
-  constructor(
-    private readonly filename: string
-  ) {}
-
-  public read(): void {
-    this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
+export class TSVFileReader extends EventEmitter implements FileReader {
+  constructor(private readonly filename: string) {
+    super();
   }
 
-  public toArray(): Offer[] {
-    if (!this.rawData) {
-      throw new Error('File was not read');
-    }
-
-    return this.rawData
-      .split('\n')
-      .filter((row) => row.trim().length > 0)
-      .map((line) => createOffer(line));
+  public read(): void {
+    // Код для работы с потоками
   }
 }
