@@ -3,3 +3,4 @@ export * from './offer.type.js';
 export * from './cities.enum.js';
 export * from './location.type.js';
 export * from './housing-type.enum.js';
+export * from './mock-server-data.type.js';
