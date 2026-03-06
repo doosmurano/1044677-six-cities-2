@@ -19,6 +19,8 @@
     "mock:server": "json-server ./mocks/mock-server-data.json --port 3000"
   },
   "devDependencies": {
+    "@types/convict": "6.1.6",
+    "@types/convict-format-with-validator": "6.0.6",
     "@types/node": "18.17.17",
     "@typescript-eslint/eslint-plugin": "6.7.0",
     "@typescript-eslint/parser": "6.7.0",
@@ -39,6 +41,8 @@
   },
   "dependencies": {
     "chalk": "4.1.2",
+    "convict": "6.2.4",
+    "convict-format-with-validator": "6.2.0",
     "dayjs": "1.11.19",
     "dotenv": "17.3.1",
     "got": "14.6.6",
