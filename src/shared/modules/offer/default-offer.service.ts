@@ -34,6 +34,13 @@ export class DefaultOfferService implements OfferService {
     return this.offerModel.find({ city }).exec();
   }
 
+  public async findPremiumByCity(city: City): Promise<DocumentType<OfferEntity>[]> {
+    return this.offerModel
+      .find({ city, isPremium: true })
+      .populate(['userId'])
+      .exec();
+  }
+
   public async findByType(type: HousingType): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel.find({ type }).exec();
   }

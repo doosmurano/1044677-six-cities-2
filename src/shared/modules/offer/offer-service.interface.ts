@@ -9,6 +9,7 @@ export interface OfferService {
   create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>>;
   findById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   findByCity(city: City): Promise<DocumentType<OfferEntity>[]>;
+  findPremiumByCity(city: City): Promise<DocumentType<OfferEntity>[]>;
   findByType(type: HousingType): Promise<DocumentType<OfferEntity>[]>;
   findByPrice(price: number): Promise<DocumentType<OfferEntity>[]>;
   findByRating(rating: number): Promise<DocumentType<OfferEntity>[]>;
