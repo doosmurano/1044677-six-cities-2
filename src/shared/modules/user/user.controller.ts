@@ -1,6 +1,6 @@
-import { Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { Component } from '../../types/index.js';
+import { Response, NextFunction } from 'express';
 import { Logger } from '../../libs/logger/index.js';
 import { CreateUserRequest } from './create-user-request.type.js';
 import { BaseController, HttpMethod } from '../../libs/rest/index.js';
@@ -18,8 +18,13 @@ export class UserController extends BaseController {
 
   public async create(
     _req: CreateUserRequest,
-    _res: Response
+    _res: Response,
+    next: NextFunction
   ): Promise<void> {
-    throw new Error('[UserController] Oops');
+    try {
+      throw new Error('[UserController] Oops');
+    } catch (error) {
+      return next(error);
+    }
   }
 }
