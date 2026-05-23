@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { UserRdo } from './rdo/user.rdo.js';
 import { inject, injectable } from 'inversify';
 import { StatusCodes } from 'http-status-codes';
@@ -23,6 +23,7 @@ export class UserController extends BaseController {
 
     this.addRoute({ path: '/register', method: HttpMethod.Post, handler: this.create });
     this.addRoute({ path: '/login', method: HttpMethod.Post, handler: this.login });
+    this.addRoute({ path: '/login', method: HttpMethod.Get, handler: this.checkLogin });
   }
 
   public async create(
@@ -45,7 +46,7 @@ export class UserController extends BaseController {
 
   public async login(
     { body }: LoginUserRequest,
-    _res: Response,
+    res: Response,
   ): Promise<void> {
     const existsUser = await this.userService.findByEmail(body.email);
 
@@ -57,10 +58,13 @@ export class UserController extends BaseController {
       );
     }
 
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController',
-    );
+    this.ok(res, fillDTO(UserRdo, existsUser));
+  }
+
+  public async checkLogin(
+    _req: Request,
+    _res: Response,
+  ): Promise<void> {
+    throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController');
   }
 }
