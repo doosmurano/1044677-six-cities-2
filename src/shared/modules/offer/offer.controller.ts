@@ -7,6 +7,7 @@ import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { OfferService } from './offer-service.interface.js';
 import { OfferByIdRequest } from './offer-by-id-request.type.js';
+import { CreateOfferRequest } from './create-offer-request.type.js';
 import { BaseController, HttpError, HttpMethod } from '../../libs/rest/index.js';
 
 @injectable()
@@ -19,6 +20,7 @@ export class OfferController extends BaseController {
     this.logger.info('Register routes for OfferController…');
 
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
+    this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
     this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.show });
   }
 
@@ -28,6 +30,14 @@ export class OfferController extends BaseController {
   ): Promise<void> {
     const offers = await this.offerService.find();
     this.ok(res, offers.map((offer) => fillDTO(OfferRdo, offer)));
+  }
+
+  public async create(
+    { body }: CreateOfferRequest,
+    res: Response,
+  ): Promise<void> {
+    const offer = await this.offerService.create(body);
+    this.created(res, fillDTO(OfferRdo, offer));
   }
 
   public async show(
