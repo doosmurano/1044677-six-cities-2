@@ -8,6 +8,7 @@ import { Logger } from '../../libs/logger/index.js';
 import { OfferService } from './offer-service.interface.js';
 import { OfferByIdRequest } from './offer-by-id-request.type.js';
 import { CreateOfferRequest } from './create-offer-request.type.js';
+import { UpdateOfferRequest } from './update-offer-request.type.js';
 import { BaseController, HttpError, HttpMethod } from '../../libs/rest/index.js';
 
 @injectable()
@@ -22,6 +23,7 @@ export class OfferController extends BaseController {
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
     this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.show });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.update });
   }
 
   public async index(
@@ -53,6 +55,24 @@ export class OfferController extends BaseController {
         'OfferController',
       );
     }
+    this.ok(res, fillDTO(OfferRdo, offer));
+  }
+
+  public async update(
+    { params, body }: UpdateOfferRequest,
+    res: Response,
+  ): Promise<void> {
+    const offerId = params.offerId as string;
+    const offer = await this.offerService.updateById(offerId, body);
+
+    if (! offer) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with id «${offerId}» not found.`,
+        'OfferController',
+      );
+    }
+
     this.ok(res, fillDTO(OfferRdo, offer));
   }
 }
