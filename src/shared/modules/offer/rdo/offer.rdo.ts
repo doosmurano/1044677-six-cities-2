@@ -1,7 +1,14 @@
-import { Expose } from 'class-transformer';
-import { OfferLocation } from '../offer.entity.js';
 import { City } from '../../../types/cities.enum.js';
+import { Expose, Transform, Type } from 'class-transformer';
 import { HousingType } from '../../../types/housing-type.enum.js';
+
+export class OfferLocationRdo {
+  @Expose()
+  public latitude: number;
+
+  @Expose()
+  public longitude: number;
+}
 
 export class OfferRdo {
   @Expose()
@@ -50,8 +57,16 @@ export class OfferRdo {
   public goods: string[];
 
   @Expose()
+  @Transform(({ obj }) => {
+    if (obj.userId && typeof obj.userId === 'object' && '_id' in obj.userId) {
+      return obj.userId._id.toString();
+    }
+
+    return obj.userId?.toString();
+  })
   public userId: string;
 
   @Expose()
-  public location: OfferLocation;
+  @Type(() => OfferLocationRdo)
+  public location: OfferLocationRdo;
 }
